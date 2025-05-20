@@ -34,7 +34,7 @@
         </div> 
     </a>
 
-    <a href="admin.php">
+    <a href="admin/loginadmin.php">
         <div class="container">
             <img src="img/admin1.png" alt="Admin Icon">
             <h3>Admin</h3>

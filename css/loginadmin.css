@@ -1,0 +1,32 @@
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg)
+}
+
+.login-container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 300px;
+}
+.login-container input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+}
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.error {
+    color: red;
+}
