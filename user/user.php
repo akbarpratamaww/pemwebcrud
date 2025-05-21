@@ -124,46 +124,127 @@
                 opacity: 0;
             }
         }
-        .feature-card {
+        .service-card {
             transition: transform 0.3s;
             border: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 100%;
         }
-        .feature-card:hover {
+        .service-card:hover {
             transform: translateY(-10px);
         }
-        .testimoni-card {
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #4CAF50;
+            border-radius: 50%;
+        }
+        @media (max-width: 767px) {
+            .carousel-inner .carousel-item > div {
+                display: none;
+            }
+            .carousel-inner .carousel-item > div:first-child {
+                display: block;
+            }
+        }
+        .carousel-inner .carousel-item.active,
+        .carousel-inner .carousel-item-next,
+        .carousel-inner .carousel-item-prev {
+            display: flex;
+        }
+        @media (min-width: 768px) {
+            .carousel-inner .carousel-item-end.active,
+            .carousel-inner .carousel-item-next {
+                transform: translateX(33.33%);
+            }
+            .carousel-inner .carousel-item-start.active,
+            .carousel-inner .carousel-item-prev {
+                transform: translateX(-33.33%);
+            }
+        }
+        .carousel-inner .carousel-item-end,
+        .carousel-inner .carousel-item-start {
+            transform: translateX(0);
+        }
+        .form-card {
+            max-width: 600px;
+            margin: 0 auto;
             background-color: #FFFFFF;
-            padding: 20px;
+            border: 2px solid #4CAF50;
             border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
         }
-        .faq-item {
-            margin-bottom: 15px;
-        }
-        .faq-item h5 {
-            cursor: pointer;
+        .form-label {
+            font-family: 'Poppins', sans-serif;
             color: #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        footer {
+        .form-control, .form-select {
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            padding: 10px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #81C784;
+            box-shadow: 0 0 5px rgba(129, 199, 132, 0.5);
+            outline: none;
+        }
+        .btn-danger {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+        .service-item {
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #F5F5F5;
+        }
+        .service-item .row {
+            align-items: center;
+        }
+        .receipt-card {
+            max-width: 600px;
+            margin: 0 auto;
             background-color: #FFFFFF;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: none;
+        }
+        .receipt-card p {
+            margin-bottom: 10px;
+        }
+        .receipt-card strong {
             color: #4CAF50;
-            padding: 40px 0;
         }
-        .footer-link {
+        .receipt-card table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .receipt-card th, .receipt-card td {
+            padding: 8px;
+            border-bottom: 1px solid #4CAF50;
+            text-align: left;
+        }
+        .receipt-card th {
+            background-color: #E8F5E9;
             color: #4CAF50;
-            text-decoration: none;
-        }
-        .footer-link:hover {
-            color: #81C784;
-        }
-        .icon-img {
-            width: 60px;
-            height: 60px;
-            font-size: 60px; /* Untuk ikon Bootstrap */
-            color: #4CAF50; /* Warna konsisten dengan tema */
-            line-height: 60px; /* Pusatkan vertikal */
         }
         .map-section {
             background-color: #2E3B4E;
@@ -191,6 +272,18 @@
         }
         .social-icons a:hover {
             color: #4CAF50;
+        }
+        footer {
+            background-color: #FFFFFF;
+            color: #4CAF50;
+            padding: 40px 0;
+        }
+        .footer-link {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .footer-link:hover {
+            color: #81C784;
         }
     </style>
 </head>
@@ -224,33 +317,33 @@
     <!-- Hero Section (Slider) -->
     <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active" style="background-image: url('assets/depanback1.jpeg');">
+            <div class="carousel-item active" style="background-image: url('../img/depanback1.jpeg');">
                 <div class="carousel-caption">
-                    <h1>Cahaya Laundry: Solusi Cucian Anda! </h1>
+                    <h1>Cahaya Laundry: Solusi Cucian Anda!</h1>
                     <p>Cucian bersih, wangi, dan terjangkau dengan layanan cepat dan ramah lingkungan.</p>
                     <div class="mt-4">
-                        <a href="booking.html" class="btn btn-primary me-3">Pesan Sekarang</a>
-                        <a href="services.html" class="btn btn-secondary">Lihat Layanan</a>
+                        <a href="#booking-section" class="btn btn-primary me-3">Pesan Sekarang</a>
+                        <a href="#services-section" class="btn btn-secondary">Lihat Layanan</a>
                     </div>
                 </div>
             </div>
-            <div class="carousel-item" style="background-image: url('assets/depanback2.jpeg');">
+            <div class="carousel-item" style="background-image: url('../img/depanback2.jpeg');">
                 <div class="carousel-caption">
-                    <h1>Cucian Rapi, Hidup Lebih Mudah! </h1>
+                    <h1>Cucian Rapi, Hidup Lebih Mudah!</h1>
                     <p>Nikmati layanan laundry modern dengan teknologi ramah lingkungan.</p>
                     <div class="mt-4">
-                        <a href="booking.html" class="btn btn-primary me-3">Pesan Sekarang</a>
-                        <a href="services.html" class="btn btn-secondary">Lihat Layanan</a>
+                        <a href="#booking-section" class="btn btn-primary me-3">Pesan Sekarang</a>
+                        <a href="#services-section" class="btn btn-secondary">Lihat Layanan</a>
                     </div>
                 </div>
             </div>
-            <div class="carousel-item" style="background-image: url('assets/depanback3.jpeg');">
+            <div class="carousel-item" style="background-image: url('../img/depanback3.jpeg');">
                 <div class="carousel-caption">
-                    <h1>Laundry Cepat & Terpercaya! </h1>
+                    <h1>Laundry Cepat & Terpercaya!</h1>
                     <p>Percayakan pakaian Anda kepada kami untuk hasil terbaik.</p>
                     <div class="mt-4">
-                        <a href="booking.html" class="btn btn-primary me-3">Pesan Sekarang</a>
-                        <a href="services.html" class="btn btn-secondary">Lihat Layanan</a>
+                        <a href="#booking-section" class="btn btn-primary me-3">Pesan Sekarang</a>
+                        <a href="#services-section" class="btn btn-secondary">Lihat Layanan</a>
                     </div>
                 </div>
             </div>
@@ -265,105 +358,184 @@
         </button>
     </div>
 
-    <!-- Features Section -->
-    <section class="container my-5">
-        <h2 class="text-center mb-5">Keunggulan Cahaya Laundry 🌈</h2>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card feature-card text-center">
-                    <i class="bi bi-rocket-takeoff icon-img mx-auto mt-4"></i>
-                    <div class="card-body">
-                        <h4 class="card-title">Layanan Cepat ⚡</h4>
-                        <p class="card-text">Cucian Anda selesai dalam waktu singkat, tanpa mengorbankan kualitas. Kami paham waktu Anda berharga! ⏰</p>
-                        <a href="services.html" class="btn btn-primary mt-3">Pelajari Lebih Lanjut</a>
+    <!-- Services Section -->
+    <section id="services-section" class="container my-5">
+        <h2 class="text-center mb-5">Layanan Kami</h2>
+        <div id="servicesCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+                <!-- Item 1: Cuci Basah, Cuci Kering, Cuci Setrika -->
+                <div class="carousel-item active">
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/cucibasah.jpg" class="card-img-top" alt="Cuci Basah">
+                            <div class="card-body">
+                                <h4 class="card-title">Cuci Basah</h4>
+                                <p class="card-text">Layanan cuci basah untuk pakaian sehari-hari dengan deterjen ramah lingkungan.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/cuci kering.jpg" class="card-img-top" alt="Cuci Kering">
+                            <div class="card-body">
+                                <h4 class="card-title">Cuci Kering</h4>
+                                <p class="card-text">Pembersihan pakaian khusus tanpa air, cocok untuk bahan sensitif.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/cuci-setrika-wangi.jpg" class="card-img-top" alt="Cuci Setrika">
+                            <div class="card-body">
+                                <h4 class="card-title">Cuci Setrika</h4>
+                                <p class="card-text">Cuci dan setrika pakaian Anda agar siap pakai dengan rapi.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 2: Setrika, Cuci Sprei, Cuci Boneka -->
+                <div class="carousel-item">
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/setrika34.jpg" class="card-img-top" alt="Setrika">
+                            <div class="card-body">
+                                <h4 class="card-title">Setrika</h4>
+                                <p class="card-text">Layanan setrika saja untuk pakaian yang sudah dicuci, rapi maksimal.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/cara-mencuci-dan-merawat-sprei-katun-bahan-katun.jpg" class="card-img-top" alt="Cuci Sprei">
+                            <div class="card-body">
+                                <h4 class="card-title">Cuci Sprei</h4>
+                                <p class="card-text">Pembersihan sprei dan bed cover agar tetap bersih dan wangi.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/boneka.jpg" class="card-img-top" alt="Cuci Boneka">
+                            <div class="card-body">
+                                <h4 class="card-title">Cuci Boneka</h4>
+                                <p class="card-text">Cuci boneka kesayangan dengan perawatan khusus agar tetap lembut.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 3: Cuci Karpet -->
+                <div class="carousel-item">
+                    <div class="col-md-4">
+                        <div class="card service-card text-center">
+                            <img src="../img/Cuci-Karpet-Tangerang-Selatan.jpg" class="card-img-top" alt="Cuci Karpet">
+                            <div class="card-body">
+                                <h4 class="card-title">Cuci Karpet</h4>
+                                <p class="card-text">Layanan cuci karpet untuk menghilangkan debu dan kotoran secara mendalam.</p>
+                                <a href="#booking-section" class="btn btn-primary mt-3">Pesan Sekarang</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card feature-card text-center">
-                    <i class="bi bi-tree-fill icon-img mx-auto mt-4"></i>
-                    <div class="card-body">
-                        <h4 class="card-title">Ramah Lingkungan 🌍</h4>
-                        <p class="card-text">Kami menggunakan deterjen biodegradable dan teknologi hemat air untuk menjaga bumi tetap hijau. 🌱</p>
-                        <a href="services.html" class="btn btn-primary mt-3">Pelajari Lebih Lanjut</a>
+            <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking-section" class="container my-5">
+        <h2 class="text-center mb-5">Pesan Layanan Laundry</h2>
+        <div class="form-card" id="bookingFormCard">
+            <form id="bookingForm">
+                <div class="mb-3">
+                    <label for="name" class="form-label"><i class="fas fa-user"></i> Nama</label>
+                    <input type="text" class="form-control" id="name" placeholder="Masukkan nama Anda" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label"><i class="fas fa-phone"></i> Nomor HP</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Masukkan nomor HP Anda" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label"><i class="fas fa-map-marker-alt"></i> Alamat</label>
+                    <textarea class="form-control" id="address" rows="3" placeholder="Masukkan alamat Anda" required></textarea>
+                </div>
+
+                <!-- Dynamic Services Section -->
+                <div id="servicesContainer">
+                    <div class="service-item" data-index="0">
+                        <div class="row">
+                            <div class="col-md-5 mb-2">
+                                <label class="form-label"><i class="fas fa-tshirt"></i> Jenis Layanan</label>
+                                <select class="form-select service-type" required>
+                                    <option value="" disabled selected>Pilih layanan</option>
+                                    <option value="Cuci Basah">Cuci Basah - Rp15.000/kg</option>
+                                    <option value="Cuci Setrika">Cuci Setrika - Rp20.000/kg</option>
+                                    <option value="Dry Cleaning">Dry Cleaning - Rp25.000/kg</option>
+                                    <option value="Cuci Boneka">Cuci Boneka - Rp30.000/unit</option>
+                                    <option value="Setrika">Setrika - Rp10.000/kg</option>
+                                    <option value="Cuci Sprei">Cuci Sprei - Rp20.000/unit</option>
+                                    <option value="Cuci Karpet">Cuci Karpet - Rp50.000/unit</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label class="form-label"><i class="fas fa-weight"></i> Berat (kg) / Jumlah Unit</label>
+                                <input type="number" class="form-control service-quantity" min="1" placeholder="Masukkan berat/jumlah" required>
+                            </div>
+                            <div class="col-md-3 mb-2 d-flex align-items-end justify-content-end">
+                                <button type="button" class="btn btn-danger btn-remove-service" disabled>Hapus</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card feature-card text-center">
-                    <i class="bi bi-cash-coin icon-img mx-auto mt-4"></i>
-                    <div class="card-body">
-                        <h4 class="card-title">Harga Terjangkau 💸</h4>
-                        <p class="card-text">Nikmati layanan laundry berkualitas tinggi dengan harga yang ramah di kantong untuk semua kalangan. 🤑</p>
-                        <a href="pricing.html" class="btn btn-primary mt-3">Lihat Harga</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="container my-5">
-        <h2 class="text-center mb-5">Mengapa Cahaya Laundry?</h2>
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <img src="assets/fotodepan.jpg" class="img-fluid rounded" alt="Cahaya Laundry">
-            </div>
-            <div class="col-md-6">
-                <p>Cahaya Laundry hadir sejak 2021 sebagai solusi modern untuk kebutuhan laundry Anda. Kami menggabungkan teknologi canggih dengan pendekatan ramah lingkungan untuk memberikan hasil cucian yang bersih, wangi, dan terawat.</p>
-                <p>Kami percaya bahwa pakaian bersih bukan hanya soal penampilan, tetapi juga kenyamanan dan kesehatan. Oleh karena itu, setiap proses kami dirancang untuk memberikan pengalaman terbaik bagi pelanggan, mulai dari pemesanan online hingga pengambilan cucian.</p>
-                <p>Dengan tim profesional dan komitmen terhadap kepuasan pelanggan, Cahaya Laundry siap menjadi mitra terpercaya Anda. Coba layanan kami sekarang dan rasakan perbedaannya!</p>
-                <a href="about.html" class="btn btn-primary mt-3">Pelajari Lebih Lanjut</a>
-            </div>
-        </div>
-    </section>
+                <div class="text-center mb-3">
+                    <button type="button" class="btn btn-primary" id="addServiceBtn">Tambah Layanan</button>
+                </div>
 
-    <!-- Testimoni Section -->
-    <section class="container my-5">
-        <h2 class="text-center mb-5">Apa Kata Pelanggan Kami 😊</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="testimoni-card text-center">
-                    <p>"Cahaya Laundry sangat membantu saya yang sibuk. Cucian selalu selesai tepat waktu dan hasilnya sangat bersih! "</p>
-                    <h5>- Defina, Ibu Rumah Tangga</h5>
+                <div class="mb-3">
+                    <label for="notes" class="form-label"><i class="fas fa-sticky-note"></i> Catatan (opsional)</label>
+                    <textarea class="form-control" id="notes" rows="3" placeholder="Masukkan catatan tambahan"></textarea>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="testimoni-card text-center">
-                    <p>"Saya suka karena mereka menggunakan deterjen ramah lingkungan. Pakaian saya wangi dan terasa lembut! "</p>
-                    <h5>- Akbar, Pegawai Kantoran</h5>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Pesan Sekarang</button>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="testimoni-card text-center">
-                    <p>"Harga terjangkau dan pelayanan ramah. Saya pasti akan kembali lagi! 😍"</p>
-                    <h5>- Salsa, Mahasiswi</h5>
-                </div>
-            </div>
+            </form>
         </div>
-    </section>
 
-    <!-- FAQ Section -->
-    <section class="container my-5">
-        <h2 class="text-center mb-5">Pertanyaan Umum</h2>
-        <div class="accordion" id="faqAccordion">
-            <div class="faq-item">
-                <h5 data-bs-toggle="collapse" data-bs-target="#faq1">Berapa lama proses pencucian?</h5>
-                <div id="faq1" class="collapse" data-bs-parent="#faqAccordion">
-                    <p>Untuk cuci kiloan, biasanya selesai dalam 1-2 hari. Dry cleaning mungkin memerlukan waktu tambahan tergantung jenis pakaian.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <h5 data-bs-toggle="collapse" data-bs-target="#faq2">Apakah ada layanan antar-jemput?</h5>
-                <div id="faq2" class="collapse" data-bs-parent="#faqAccordion">
-                    <p>Ya, kami menyediakan layanan antar-jemput gratis untuk area tertentu. Hubungi kami untuk informasi lebih lanjut.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <h5 data-bs-toggle="collapse" data-bs-target="#faq3">Apakah deterjen aman untuk kulit sensitif?</h5>
-                <div id="faq3" class="collapse" data-bs-parent="#faqAccordion">
-                    <p>Kami menggunakan deterjen biodegradable yang lembut dan aman untuk kulit sensitif.</p>
-                </div>
+        <!-- Receipt Section -->
+        <div class="receipt-card" id="receiptCard">
+            <h2 class="text-center mb-4">Struk Pemesanan</h2>
+            <p><strong>Nama:</strong> <span id="receiptName"></span></p>
+            <p><strong>Nomor HP:</strong> <span id="receiptPhone"></span></p>
+            <p><strong>Alamat:</strong> <span id="receiptAddress"></span></p>
+            <p><strong>Catatan:</strong> <span id="receiptNotes"></span></p>
+            <h4 class="mt-4">Detail Layanan:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jenis Layanan</th>
+                        <th>Berat/Jumlah</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="receiptServices"></tbody>
+            </table>
+            <p><strong>Total Harga:</strong> <span id="receiptTotal"></span></p>
+            <p class="mt-3">Silakan datang ke Cahaya Laundry untuk membayar dan menyerahkan cucian.</p>
+            <div class="text-center mt-4">
+                <a href="index.html" class="btn btn-primary">Kembali ke Beranda</a>
             </div>
         </div>
     </section>
@@ -373,7 +545,7 @@
         <div class="container">
             <h2 class="mb-4">Siap Mencoba Cahaya Laundry? 🚀</h2>
             <p class="mb-4">Dapatkan cucian bersih dan wangi dengan layanan terbaik kami. Pesan sekarang dan nikmati kemudahan laundry modern!</p>
-            <a href="booking.html" class="btn btn-primary btn-lg">Mulai Sekarang</a>
+            <a href="#booking-section" class="btn btn-primary btn-lg">Mulai Sekarang</a>
         </div>
     </section>
 
@@ -408,6 +580,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Ripple effect for buttons
         document.querySelectorAll('.btn-primary').forEach(button => {
             button.addEventListener('click', function (e) {
                 const ripple = document.createElement('span');
@@ -419,6 +592,133 @@
                 ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
                 button.appendChild(ripple);
                 setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Services carousel script
+        document.addEventListener('DOMContentLoaded', function () {
+            const carousel = document.querySelector('#servicesCarousel');
+            const items = carousel.querySelectorAll('.carousel-item');
+            items.forEach((el) => {
+                const minPerSlide = 3;
+                let next = el.nextElementSibling;
+                for (let i = 1; i < minPerSlide; i++) {
+                    if (!next) {
+                        next = items[0];
+                    }
+                    let cloneChild = next.cloneNode(true);
+                    el.appendChild(cloneChild.children[0]);
+                    next = next.nextElementSibling;
+                }
+            });
+        });
+
+        // Booking form script
+        let serviceIndex = 0;
+        document.getElementById('addServiceBtn').addEventListener('click', function () {
+            serviceIndex++;
+            const servicesContainer = document.getElementById('servicesContainer');
+            const newServiceItem = document.createElement('div');
+            newServiceItem.classList.add('service-item');
+            newServiceItem.setAttribute('data-index', serviceIndex);
+            newServiceItem.innerHTML = `
+                <div class="row">
+                    <div class="col-md-5 mb-2">
+                        <label class="form-label"><i class="fas fa-tshirt"></i> Jenis Layanan</label>
+                        <select class="form-select service-type" required>
+                            <option value="" disabled selected>Pilih layanan</option>
+                            <option value="Cuci Basah">Cuci Basah - Rp15.000/kg</option>
+                            <option value="Cuci Setrika">Cuci Setrika - Rp20.000/kg</option>
+                            <option value="Dry Cleaning">Dry Cleaning - Rp25.000/kg</option>
+                            <option value="Cuci Boneka">Cuci Boneka - Rp30.000/unit</option>
+                            <option value="Setrika">Setrika - Rp10.000/kg</option>
+                            <option value="Cuci Sprei">Cuci Sprei - Rp20.000/unit</option>
+                            <option value="Cuci Karpet">Cuci Karpet - Rp50.000/unit</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label"><i class="fas fa-weight"></i> Berat (kg) / Jumlah Unit</label>
+                        <input type="number" class="form-control service-quantity" min="1" placeholder="Masukkan berat/jumlah" required>
+                    </div>
+                    <div class="col-md-3 mb-2 d-flex align-items-end justify-content-end">
+                        <button type="button" class="btn btn-danger btn-remove-service">Hapus</button>
+                    </div>
+                </div>
+            `;
+            servicesContainer.appendChild(newServiceItem);
+        });
+
+        document.getElementById('servicesContainer').addEventListener('click', function (event) {
+            if (event.target.classList.contains('btn-remove-service')) {
+                const serviceItem = event.target.closest('.service-item');
+                serviceItem.remove();
+            }
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value || '-';
+
+            const serviceItems = document.querySelectorAll('.service-item');
+            const services = [];
+            let totalPrice = 0;
+
+            serviceItems.forEach(item => {
+                const serviceType = item.querySelector('.service-type').value;
+                const quantity = parseFloat(item.querySelector('.service-quantity').value) || 1;
+
+                let pricePerUnit = 0;
+                if (serviceType === 'Cuci Basah') {
+                    pricePerUnit = 15000;
+                } else if (serviceType === 'Cuci Setrika') {
+                    pricePerUnit = 20000;
+                } else if (serviceType === 'Dry Cleaning') {
+                    pricePerUnit = 25000;
+                } else if (serviceType === 'Cuci Boneka') {
+                    pricePerUnit = 30000;
+                } else if (serviceType === 'Setrika') {
+                    pricePerUnit = 10000;
+                } else if (serviceType === 'Cuci Sprei') {
+                    pricePerUnit = 20000;
+                } else if (serviceType === 'Cuci Karpet') {
+                    pricePerUnit = 50000;
+                }
+
+                const subtotal = pricePerUnit * quantity;
+                totalPrice += subtotal;
+
+                services.push({
+                    type: serviceType,
+                    quantity: quantity,
+                    subtotal: subtotal
+                });
+            });
+
+            const formattedTotalPrice = totalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+
+            document.getElementById('bookingFormCard').style.display = 'none';
+            document.getElementById('receiptCard').style.display = 'block';
+
+            document.getElementById('receiptName').textContent = name;
+            document.getElementById('receiptPhone').textContent = phone;
+            document.getElementById('receiptAddress').textContent = address;
+            document.getElementById('receiptNotes').textContent = notes;
+            document.getElementById('receiptTotal').textContent = formattedTotalPrice;
+
+            const receiptServices = document.getElementById('receiptServices');
+            receiptServices.innerHTML = '';
+            services.forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${service.type}</td>
+                    <td>${service.quantity} ${service.type === 'Cuci Boneka' || service.type === 'Cuci Sprei' || service.type === 'Cuci Karpet' ? 'unit' : 'kg'}</td>
+                    <td>${service.subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</td>
+                `;
+                receiptServices.appendChild(row);
             });
         });
     </script>
