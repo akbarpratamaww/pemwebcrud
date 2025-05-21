@@ -27,13 +27,6 @@
 
 <!-- Container Pembungkus -->
 <div class="menu">
-    <a href="user/user.php">
-        <div class="container">
-            <img src="img/user1.png" alt="User Icon">
-            <h3>Pelanggan</h3>
-        </div> 
-    </a>
-
     <a href="admin/loginadmin.php">
         <div class="container">
             <img src="img/admin1.png" alt="Admin Icon">
@@ -41,8 +34,5 @@
         </div> 
     </a>
 </div>
-
-
-
 </body>
 </html>
