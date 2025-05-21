@@ -27,7 +27,7 @@
 
 <!-- Container Pembungkus -->
 <div class="menu">
-    <a href="user.php">
+    <a href="user/user.php">
         <div class="container">
             <img src="img/user1.png" alt="User Icon">
             <h3>Pelanggan</h3>
