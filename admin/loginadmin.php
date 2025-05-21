@@ -18,14 +18,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "SELECT * FROM admin WHERE username = '$input_username'";
     $result = mysqli_query($conn, $sql);
-    $user = mysqli_fetch_assoc($result);
 
-    if ($user && $input_password === $user['password']) { 
-        header("Location: ../admin/admin.php");
-        exit();
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        if ($input_password === $user['password']) {
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['username'] = $input_username;
+            header("Location: admin.php");
+            exit();
+        } else {
+            $error = "Password salah!";
+        }
     } else {
-        $error = "Username atau password salah!";
+        $error = "Username tidak ditemukan!";
     }
+
+    mysqli_close($conn);
 }
 ?>
 
@@ -41,8 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet">
 
-    <!-- Style -->
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/loginadmin.css">
+
 </head>
 <body>
     <div class="login-container">
