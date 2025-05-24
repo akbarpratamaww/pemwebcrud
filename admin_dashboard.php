@@ -8,7 +8,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 require_once 'db_connect.php';
 
-// Statistik dasar
 try {
     // Total Pendapatan
     $totalIncome = $pdo->query("SELECT SUM(p.berat_unit * l.harga_layanan) as total FROM pelanggan p JOIN layanan l ON p.id_layanan = l.id_layanan")->fetchColumn();
