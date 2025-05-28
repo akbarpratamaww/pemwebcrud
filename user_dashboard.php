@@ -1,3 +1,4 @@
+```php
 <?php
 session_start();
 
@@ -223,25 +224,46 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             color: #81C784;
         }
 
-        /* Hero Section */
+        /* Hero Section (Slider) */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2');
-            background-size: cover;
-            background-position: center;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-content h1 {
+        .carousel-inner {
+            height: 100%;
+        }
+
+        .carousel-item {
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            filter: brightness(70%);
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .carousel-caption h1 {
             font-size: 48px;
             margin-bottom: 20px;
         }
 
-        .hero-content p {
+        .carousel-caption p {
             font-size: 18px;
             margin-bottom: 30px;
         }
@@ -283,17 +305,22 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
         }
 
         .service-item {
-            background: #f9f9f9;
+            background: #E8F5E9;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #81C784;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #81C784;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .service-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        .service-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
         .service-item h3 {
@@ -304,7 +331,34 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
 
         .service-item p {
             font-size: 16px;
-            color: #666;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .service-item::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(129, 199, 132, 0.2) 0%, rgba(232, 245, 233, 0) 70%);
+            transition: transform 0.5s ease;
+            z-index: 0;
+        }
+
+        .service-item:hover::before {
+            transform: translate(25%, 25%);
+        }
+
+        .service-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-item > * {
+            position: relative;
+            z-index: 1;
         }
 
         /* Order Section */
@@ -315,8 +369,8 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             background: #FFFFFF;
         }
 
-        .form-card, .history-card, .receipt-card {
-            background: #FFFFFF;
+        .form-card, .history-card {
+            background: #E8F5E9;
             border: 2px solid #81C784;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -325,8 +379,28 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             color: #2c3e50;
         }
 
+        /* Receipt Card Styling */
         .receipt-card {
+            background: #E8F5E9;
+            border: 2px solid #81C784;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            color: #2c3e50;
             display: none;
+        }
+
+        .receipt-card h2 {
+            color: #81C784;
+        }
+
+        .receipt-card .mb-3 {
+            color: #2c3e50;
+        }
+
+        .receipt-card .mb-3 strong {
+            font-weight: 600;
         }
 
         .order-section h2, .order-section h3 {
@@ -385,15 +459,30 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             background-color: #34495e;
         }
 
+        /* Table Styling for History */
         .table {
-            background: #FFFFFF;
+            background: #E8F5E9;
             color: #2c3e50;
+            border-collapse: collapse;
         }
 
-        .table th, .table td {
-            border-color: #f0f0f0;
+        .table th {
+            background: #C8E6C9;
+            color: #2c3e50;
+            border: 1px solid #81C784;
+            padding: 12px;
+        }
+
+        .table td {
+            background: #E8F5E9;
+            color: #2c3e50;
+            border: 1px solid #81C784;
             padding: 12px;
             vertical-align: middle;
+        }
+
+        .table .badge {
+            font-size: 0.9rem;
         }
 
         .col-id { min-width: 50px; }
@@ -411,6 +500,12 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
         @media (max-width: 768px) {
             .col-selesai, .col-catatan, .col-pengambilan {
                 display: none;
+            }
+            .carousel-caption h1 {
+                font-size: 32px;
+            }
+            .carousel-caption p {
+                font-size: 14px;
             }
         }
 
@@ -505,27 +600,6 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
         footer p {
             font-size: 14px;
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 32px;
-            }
-
-            .hero-content p {
-                font-size: 16px;
-            }
-
-            .nav-links a {
-                margin-left: 10px;
-                font-size: 14px;
-            }
-
-            .form-card, .history-card, .receipt-card {
-                padding: 20px;
-                margin: 10px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -544,12 +618,43 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (Slider) -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Selamat Datang di <?php echo $company_name; ?></h1>
-            <p>Jasa laundry profesional dengan pelayanan cepat, bersih, dan terjangkau.</p>
-            <a href="#order" class="btn">Buat Pesanan</a>
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2" alt="Laundry 1">
+                    <div class="carousel-caption">
+                        <h1>Selamat Datang di <?php echo $company_name; ?></h1>
+                        <p>Jasa laundry profesional dengan pelayanan cepat dan bersih.</p>
+                        <a href="#order" class="btn">Buat Pesanan</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Laundry 2">
+                    <div class="carousel-caption">
+                        <h1>Kualitas Terbaik untuk Anda</h1>
+                        <p>Pakaian wangi dan terawat dengan teknologi modern.</p>
+                        <a href="#order" class="btn">Buat Pesanan</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1600585154526-990d71b8f926" alt="Laundry 3">
+                    <div class="carousel-caption">
+                        <h1>Layanan Cepat dan Terjangkau</h1>
+                        <p>Kami siap melayani kebutuhan laundry Anda.</p>
+                        <a href="#order" class="btn">Buat Pesanan</a>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </section>
 
@@ -558,54 +663,67 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
         <h2>Layanan Kami</h2>
         <div class="service-grid">
             <div class="service-item">
+                <img src="img/cucibasah.jpg" alt="Cuci Basah">
                 <h3>Cuci Basah</h3>
                 <p>Rp3.500/kg</p>
             </div>
             <div class="service-item">
+                <img src="img/cuci lipatt.jpg" alt="Cuci Lipat">
                 <h3>Cuci Lipat</h3>
                 <p>Rp4.500/kg</p>
             </div>
             <div class="service-item">
+                <img src="img/cuci-setrika-wangi.jpg" alt="Cuci Setrika">
                 <h3>Cuci Setrika</h3>
                 <p>Rp7.000/kg</p>
             </div>
             <div class="service-item">
+                <img src="img/setrika34.jpg" alt="Setrika">
                 <h3>Setrika</h3>
                 <p>Rp4.500/kg</p>
             </div>
             <div class="service-item">
+                <img src="img/Cuci-Lipat-0-2515c428dbce2ea7 (1).jpg" alt="Cuci Lipat Express">
                 <h3>Cuci Lipat Express</h3>
                 <p>Rp8.000/kg</p>
             </div>
             <div class="service-item">
+                <img src="img/csuset.jpg" alt="Cuci Setrika Express">
                 <h3>Cuci Setrika Express</h3>
                 <p>Rp12.000/kg</p>
             </div>
             <div class="service-item">
+                <img src="img/bedco.jpg" alt="Bedcover">
                 <h3>Bedcover</h3>
                 <p>Rp20.000/unit</p>
             </div>
             <div class="service-item">
+                <img src="img/sprei.jpg" alt="Sprei">
                 <h3>Seprei</h3>
                 <p>Rp10.000/unit</p>
             </div>
             <div class="service-item">
+                <img src="img/selimutjpg.jpg" alt="Selimut">
                 <h3>Selimut</h3>
                 <p>Rp10.000/unit</p>
             </div>
             <div class="service-item">
+                <img src="img/sepatu.jpg" alt="Sepatu">
                 <h3>Sepatu</h3>
                 <p>Rp20.000/pasang</p>
             </div>
             <div class="service-item">
+                <img src="img/tas.jpg" alt="Tas">
                 <h3>Tas</h3>
                 <p>Rp15.000/unit</p>
             </div>
             <div class="service-item">
+                <img src="img/boneka.jpg" alt="Boneka">
                 <h3>Boneka</h3>
                 <p>Rp10.000/unit</p>
             </div>
             <div class="service-item">
+                <img src="img/wenter.jpg" alt="Wenter">
                 <h3>Wenter</h3>
                 <p>Rp35.000/unit</p>
             </div>
