@@ -37,13 +37,49 @@ try {
                                     GROUP BY DATE_FORMAT(tanggal_masuk, '%Y-%m') 
                                     ORDER BY month")->fetchAll(PDO::FETCH_ASSOC);
 
-    // Data untuk Top Selling Items
-    $topSelling = $pdo->query("SELECT l.nama_layanan, COUNT(p.id_pelanggan) as order_count 
-                              FROM pelanggan p 
-                              JOIN layanan l ON p.id_layanan = l.id_layanan 
-                              GROUP BY l.id_layanan 
-                              ORDER BY order_count DESC 
-                              LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+    // Pagination dan Search untuk Top Selling Items
+    $items_per_page = 5;
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $offset = ($page - 1) * $items_per_page;
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+    // Query untuk menghitung total item terlaris
+    $count_query = "SELECT COUNT(DISTINCT l.id_layanan) 
+                    FROM pelanggan p 
+                    JOIN layanan l ON p.id_layanan = l.id_layanan";
+    $params = [];
+    
+    if (!empty($search)) {
+        $count_query .= " WHERE l.nama_layanan LIKE :search";
+        $params[':search'] = '%' . $search . '%';
+    }
+
+    $stmt = $pdo->prepare($count_query);
+    $stmt->execute($params);
+    $total_items = $stmt->fetchColumn();
+    $total_pages = ceil($total_items / $items_per_page);
+
+    // Query untuk Top Selling Items
+    $query = "SELECT l.nama_layanan, COUNT(p.id_pelanggan) as order_count 
+              FROM pelanggan p 
+              JOIN layanan l ON p.id_layanan = l.id_layanan";
+    
+    if (!empty($search)) {
+        $query .= " WHERE l.nama_layanan LIKE :search";
+    }
+    
+    $query .= " GROUP BY l.id_layanan 
+                ORDER BY order_count DESC 
+                LIMIT :offset, :items_per_page";
+    
+    $stmt = $pdo->prepare($query);
+    if (!empty($search)) {
+        $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+    }
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->bindValue(':items_per_page', $items_per_page, PDO::PARAM_INT);
+    $stmt->execute();
+    $topSelling = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
     exit();
@@ -151,6 +187,28 @@ try {
             border-radius: 50%;
             margin-right: 10px;
         }
+        /* Search and Pagination Styles */
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination .page-link {
+            color: #4CAF50;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+        .pagination .page-link:hover {
+            background-color: #81C784;
+            color: #FFFFFF;
+        }
+        .pagination .active .page-link {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            color: #FFFFFF;
+        }
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -218,14 +276,47 @@ try {
             </div>
             <div class="col-md-4 chart-container">
                 <h3>Top Selling Items</h3>
+                <!-- Search Form -->
+                <form method="GET" class="search-form">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Cari nama layanan..." value="<?php echo htmlspecialchars($search); ?>">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Cari</button>
+                    </div>
+                </form>
                 <div id="topSellingItems">
-                    <?php foreach ($topSelling as $index => $item): ?>
-                        <div class="top-selling-item">
-                            <img src="https://via.placeholder.com/40?text=Icon" alt="<?php echo htmlspecialchars($item['nama_layanan']); ?>">
-                            <span><?php echo htmlspecialchars($item['nama_layanan']); ?> - <?php echo $item['order_count']; ?></span>
-                        </div>
-                    <?php endforeach; ?>
+                    <?php if (empty($topSelling)): ?>
+                        <p class="text-center">Tidak ada data ditemukan.</p>
+                    <?php else: ?>
+                        <?php foreach ($topSelling as $index => $item): ?>
+                            <div class="top-selling-item">
+                                <img src="https://via.placeholder.com/40?text=Icon" alt="<?php echo htmlspecialchars($item['nama_layanan']); ?>">
+                                <span><?php echo htmlspecialchars($item['nama_layanan']); ?> - <?php echo $item['order_count']; ?></span>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
+                <!-- Pagination -->
+                <?php if ($total_pages > 1): ?>
+                    <nav aria-label="Pagination">
+                        <ul class="pagination">
+                            <?php if ($page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>">Sebelumnya</a>
+                                </li>
+                            <?php endif; ?>
+                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <?php if ($page < $total_pages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>">Selanjutnya</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                <?php endif; ?>
             </div>
         </div>
     </div>
