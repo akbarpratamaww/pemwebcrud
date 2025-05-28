@@ -25,7 +25,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background: #D4E8D4; /* Warna hijau muda dari gambar */
+            background: #FFFFFF; /* Warna latar belakang di luar kotak menjadi putih */
             font-family: 'Open Sans', sans-serif;
             height: 100vh;
             margin: 0;
@@ -35,7 +35,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             overflow: hidden;
         }
         .login-container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(209, 247, 209, 0.58); /* Latar belakang hijau muda dengan opacity rendah */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 15px;
@@ -43,19 +43,19 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             padding: 40px;
             width: 100%;
             max-width: 500px;
-            color: #2E7D32; /* Warna teks utama diubah ke hijau tua untuk kontras */
+            color: #2E7D32; /* Warna teks utama hijau tua untuk kontras */
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .login-container h2 {
             font-family: 'Poppins', sans-serif;
-            color: #2E7D32; /* Tajuk tetap hijau tua untuk konsistensi */
+            color: #2E7D32; /* Tajuk hijau tua untuk konsistensi */
             text-align: center;
             margin-bottom: 30px;
         }
         .tab-button {
             background: none;
             border: none;
-            color: #2E7D32; /* Warna tombol tab diubah ke hijau tua */
+            color: #2E7D32; /* Warna tombol tab hijau tua */
             padding: 10px 20px;
             margin: 0 5px;
             cursor: pointer;
@@ -63,19 +63,19 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             transition: color 0.3s, border-bottom 0.3s;
         }
         .tab-button:hover, .tab-button.active {
-            color: #1B5E20; /* Warna lebih gelap saat hover/active untuk kontras */
+            color: #1B5E20; /* Warna lebih gelap saat hover/active */
             border-bottom: 2px solid #1B5E20;
         }
         .form-group {
             margin-bottom: 20px;
         }
         .form-label {
-            color: #2E7D32; /* Warna label diubah ke hijau tua untuk kontras */
+            color: #2E7D32; /* Warna label hijau tua */
             margin-bottom: 5px;
             font-weight: 600;
         }
         .form-control {
-            background: rgba(255, 255, 255, 0.3); /* Latar belakang input diubah sedikit lebih terang */
+            background: rgba(255, 255, 255, 0.3); /* Latar belakang input semi-transparan */
             border: none;
             border-radius: 5px;
             color: #2E7D32;
@@ -88,7 +88,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             outline: none;
         }
         .btn-login {
-            background-color: #2E7D32; /* Tombol login diubah ke hijau tua */
+            background-color: #2E7D32; /* Tombol login hijau tua */
             border: none;
             padding: 12px;
             width: 100%;
@@ -102,14 +102,14 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             transform: translateY(-2px);
         }
         .error-message {
-            color: #D32F2F; /* Warna error diubah ke merah tua untuk kontras */
+            color: #D32F2F; /* Warna error merah tua untuk kontras */
             font-size: 0.9rem;
             text-align: center;
             display: <?php echo $message ? 'block' : 'none'; ?>;
         }
         .footer-text {
             text-align: center;
-            color: #2E7D32; /* Warna footer diubah ke hijau tua */
+            color: #2E7D32; /* Warna footer hijau tua */
             margin-top: 20px;
             font-size: 0.9rem;
         }

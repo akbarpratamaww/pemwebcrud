@@ -80,14 +80,52 @@ if (isset($_POST['add_pesanan'])) {
     }
 }
 
-// Ambil riwayat pesanan berdasarkan user_id
+// Pagination dan Search
+$items_per_page = 5;
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $items_per_page;
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
 try {
-    $stmt = $pdo->prepare("SELECT p.*, l.nama_layanan, l.harga_layanan, l.satuan, u.name AS user_name 
-                           FROM pelanggan p 
-                           JOIN layanan l ON p.id_layanan = l.id_layanan 
-                           JOIN users u ON p.user_id = u.id 
-                           WHERE p.user_id = ?");
-    $stmt->execute([$user_id]);
+    // Query untuk menghitung total pesanan
+    $count_query = "SELECT COUNT(*) 
+                    FROM pelanggan p 
+                    JOIN layanan l ON p.id_layanan = l.id_layanan 
+                    JOIN users u ON p.user_id = u.id 
+                    WHERE p.user_id = :user_id";
+    $params = [':user_id' => $user_id];
+    
+    if (!empty($search)) {
+        $count_query .= " AND (p.nama_pelanggan LIKE :search OR l.nama_layanan LIKE :search OR p.status LIKE :search)";
+        $params[':search'] = '%' . $search . '%';
+    }
+
+    $stmt = $pdo->prepare($count_query);
+    $stmt->execute($params);
+    $total_items = $stmt->fetchColumn();
+    $total_pages = ceil($total_items / $items_per_page);
+
+    // Query untuk mengambil data pesanan
+    $query = "SELECT p.*, l.nama_layanan, l.harga_layanan, l.satuan, u.name AS user_name 
+              FROM pelanggan p 
+              JOIN layanan l ON p.id_layanan = l.id_layanan 
+              JOIN users u ON p.user_id = u.id 
+              WHERE p.user_id = :user_id";
+    
+    if (!empty($search)) {
+        $query .= " AND (p.nama_pelanggan LIKE :search OR l.nama_layanan LIKE :search OR p.status LIKE :search)";
+    }
+    
+    $query .= " ORDER BY p.tanggal_masuk DESC LIMIT :offset, :items_per_page";
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    if (!empty($search)) {
+        $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+    }
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->bindValue(':items_per_page', $items_per_page, PDO::PARAM_INT);
+    $stmt->execute();
     $pesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $error_message = "Gagal mengambil riwayat pesanan: " . $e->getMessage();
@@ -343,6 +381,33 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             border-color: #EF5350;
         }
 
+        /* Search and Pagination Styles */
+        .search-form {
+            margin-bottom: 20px;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination .page-link {
+            color: #2c3e50;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #81C784;
+            color: #FFFFFF;
+        }
+
+        .pagination .active .page-link {
+            background-color: #81C784;
+            border-color: #81C784;
+            color: #FFFFFF;
+        }
+
         /* About Section */
         .about {
             background: #f4f4f4;
@@ -596,6 +661,13 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             <!-- Riwayat Pesanan -->
             <div class="history-card">
                 <h2 class="mb-4">Riwayat Pesanan</h2>
+                <!-- Search Form -->
+                <form method="GET" class="search-form">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Cari nama, layanan, atau status..." value="<?php echo htmlspecialchars($search); ?>">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Cari</button>
+                    </div>
+                </form>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -632,6 +704,28 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
                         <?php endif; ?>
                     </tbody>
                 </table>
+                <!-- Pagination -->
+                <?php if ($total_pages > 1): ?>
+                    <nav aria-label="Pagination">
+                        <ul class="pagination">
+                            <?php if ($page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>">Sebelumnya</a>
+                                </li>
+                            <?php endif; ?>
+                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <?php if ($page < $total_pages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>">Selanjutnya</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                <?php endif; ?>
             </div>
         </div>
     </section>
