@@ -1,3 +1,4 @@
+```php
 <?php
 session_start();
 
@@ -62,14 +63,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $total_price = $price_per_unit * $quantity;
 
+            // Hitung tanggal selesai berdasarkan jenis layanan
+            $completion_date = new DateTime($order_date);
+            $is_express = stripos($service_type, 'express') !== false;
+            $days_to_add = $is_express ? 1 : 2;
+            $completion_date->modify("+$days_to_add days");
+
             // Simpan ke tabel orders
-            $stmt = $pdo->prepare("INSERT INTO orders (user_id, service_type, quantity, total_price, order_date, status) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$user_id, $service_type, $quantity, $total_price, $order_date, 'pending']);
+            $stmt = $pdo->prepare("INSERT INTO orders (user_id, service_type, quantity, total_price, order_date, status, is_taken, completion_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$user_id, $service_type, $quantity, $total_price, $order_date, 'pending', 0, $completion_date->format('Y-m-d')]);
         }
 
         // Update data user (opsional, jika ingin menyimpan data terbaru)
-        $stmt = $pdo->prepare("UPDATE users SET name = ?, phone = ?, address = ? WHERE id = ?");
-        $stmt->execute([$name, $phone, $address, $user_id]);
+        $stmt = $pdo->prepare("UPDATE users SET name = ?, phone = ?, address = ?, notes = ? WHERE id = ?");
+        $stmt->execute([$name, $phone, $address, $notes, $user_id]);
 
         $pdo->commit();
         header("Location: user_dashboard.php?success=Pesanan berhasil disimpan!");

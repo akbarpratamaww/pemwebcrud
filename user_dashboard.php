@@ -44,14 +44,22 @@ if (isset($_POST['add_pesanan'])) {
         $error_message = "Semua kolom wajib diisi dengan data yang valid.";
     } else {
         try {
-            // Ambil data layanan untuk struk
+            // Ambil data layanan untuk struk dan perhitungan tanggal selesai
             $stmt = $pdo->prepare("SELECT nama_layanan, harga_layanan, satuan FROM layanan WHERE id_layanan = ?");
             $stmt->execute([$id_layanan]);
             $selected_layanan = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($selected_layanan) {
-                $stmt = $pdo->prepare("INSERT INTO pelanggan (nama_pelanggan, no_telepon, alamat_pelanggan, tanggal_masuk, id_layanan, berat_unit, catatan, status, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pesanan Online User', ?)");
-                if ($stmt->execute([$nama_pelanggan, $no_telepon, $alamat_pelanggan, $tanggal_masuk, $id_layanan, $berat_unit, $catatan, $user_id])) {
+                // Hitung tanggal selesai
+                $completion_date = new DateTime($tanggal_masuk);
+                $is_express = stripos($selected_layanan['nama_layanan'], 'express') !== false;
+                $days_to_add = $is_express ? 1 : 2;
+                $completion_date->modify("+$days_to_add days");
+                $completion_date_str = $completion_date->format('Y-m-d');
+
+                // Simpan pesanan dengan completion_date
+                $stmt = $pdo->prepare("INSERT INTO pelanggan (nama_pelanggan, no_telepon, alamat_pelanggan, tanggal_masuk, id_layanan, berat_unit, catatan, status, user_id, is_taken, completion_date) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pesanan Online User', ?, 0, ?)");
+                if ($stmt->execute([$nama_pelanggan, $no_telepon, $alamat_pelanggan, $tanggal_masuk, $id_layanan, $berat_unit, $catatan, $user_id, $completion_date_str])) {
                     $success_message = "Pesanan berhasil ditambahkan!";
                     $show_receipt = true;
 
@@ -62,6 +70,7 @@ if (isset($_POST['add_pesanan'])) {
                         'no_telepon' => $no_telepon,
                         'alamat_pelanggan' => $alamat_pelanggan,
                         'tanggal_masuk' => $tanggal_masuk,
+                        'tanggal_selesai' => $completion_date_str,
                         'nama_layanan' => $selected_layanan['nama_layanan'],
                         'berat_unit' => number_format($berat_unit, 2, ',', '.') . ' ' . $selected_layanan['satuan'],
                         'total_harga' => number_format($total_harga, 0, ',', '.'),
@@ -80,7 +89,7 @@ if (isset($_POST['add_pesanan'])) {
     }
 }
 
-// Pagination dan Search
+// Pagination dan Pencarian untuk Riwayat Pesanan
 $items_per_page = 5;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $items_per_page;
@@ -127,6 +136,22 @@ try {
     $stmt->bindValue(':items_per_page', $items_per_page, PDO::PARAM_INT);
     $stmt->execute();
     $pesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Untuk pesanan yang sudah ada sebelum kolom completion_date ditambahkan
+    foreach ($pesanan as &$p) {
+        if (empty($p['completion_date'])) {
+            $tanggal_masuk = new DateTime($p['tanggal_masuk']);
+            $is_express = stripos($p['nama_layanan'], 'express') !== false;
+            $days_to_add = $is_express ? 1 : 2;
+            $tanggal_masuk->modify("+$days_to_add days");
+            $p['completion_date'] = $tanggal_masuk->format('Y-m-d');
+
+            // Update completion_date di database
+            $stmt = $pdo->prepare("UPDATE pelanggan SET completion_date = ? WHERE id_pelanggan = ?");
+            $stmt->execute([$p['completion_date'], $p['id_pelanggan']]);
+        }
+    }
+    unset($p);
 } catch (PDOException $e) {
     $error_message = "Gagal mengambil riwayat pesanan: " . $e->getMessage();
     $pesanan = [];
@@ -367,6 +392,26 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
 
         .table th, .table td {
             border-color: #f0f0f0;
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        .col-id { min-width: 50px; }
+        .col-nama { min-width: 120px; }
+        .col-tanggal { min-width: 120px; }
+        .col-selesai { min-width: 120px; }
+        .col-layanan { min-width: 120px; }
+        .col-berat { min-width: 100px; }
+        .col-harga { min-width: 120px; }
+        .col-status { min-width: 120px; }
+        .col-pemesan { min-width: 120px; }
+        .col-catatan { min-width: 150px; }
+        .col-pengambilan { min-width: 120px; }
+
+        @media (max-width: 768px) {
+            .col-selesai, .col-catatan, .col-pengambilan {
+                display: none;
+            }
         }
 
         .alert {
@@ -640,6 +685,9 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
                         <strong>Tanggal Masuk:</strong> <span id="receiptDate"><?php echo htmlspecialchars($receipt_data['tanggal_masuk']); ?></span>
                     </div>
                     <div class="mb-3">
+                        <strong>Tanggal Selesai:</strong> <span id="receiptCompletionDate"><?php echo htmlspecialchars($receipt_data['tanggal_selesai']); ?></span>
+                    </div>
+                    <div class="mb-3">
                         <strong>Jenis Layanan:</strong> <span id="receiptService"><?php echo htmlspecialchars($receipt_data['nama_layanan']); ?></span>
                     </div>
                     <div class="mb-3">
@@ -661,49 +709,61 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
             <!-- Riwayat Pesanan -->
             <div class="history-card">
                 <h2 class="mb-4">Riwayat Pesanan</h2>
-                <!-- Search Form -->
+                <!-- Form Pencarian -->
                 <form method="GET" class="search-form">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="search" placeholder="Cari nama, layanan, atau status..." value="<?php echo htmlspecialchars($search); ?>">
                         <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Cari</button>
                     </div>
                 </form>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Tanggal Masuk</th>
-                            <th>Layanan</th>
-                            <th>Berat/Unit</th>
-                            <th>Total Harga (Rp)</th>
-                            <th>Status</th>
-                            <th>Pemesan</th>
-                            <th>Catatan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($pesanan)): ?>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
-                                <td colspan="9" class="text-center">Belum ada pesanan.</td>
+                                <th class="col-id">ID</th>
+                                <th class="col-nama">Nama</th>
+                                <th class="col-tanggal">Tanggal Masuk</th>
+                                <th class="col-selesai">Tanggal Selesai</th>
+                                <th class="col-layanan">Layanan</th>
+                                <th class="col-berat">Berat/Unit</th>
+                                <th class="col-harga">Total Harga (Rp)</th>
+                                <th class="col-status">Status</th>
+                                <th class="col-pemesan">Pemesan</th>
+                                <th class="col-catatan">Catatan</th>
+                                <th class="col-pengambilan">Status Pengambilan</th>
                             </tr>
-                        <?php else: ?>
-                            <?php foreach ($pesanan as $p): ?>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($pesanan)): ?>
                                 <tr>
-                                    <td><?php echo $p['id_pelanggan']; ?></td>
-                                    <td><?php echo htmlspecialchars($p['nama_pelanggan']); ?></td>
-                                    <td><?php echo $p['tanggal_masuk']; ?></td>
-                                    <td><?php echo htmlspecialchars($p['nama_layanan']); ?></td>
-                                    <td><?php echo number_format($p['berat_unit'], 2, ',', '.') . ' ' . htmlspecialchars($p['satuan']); ?></td>
-                                    <td><?php echo number_format($p['berat_unit'] * $p['harga_layanan'], 0, ',', '.'); ?></td>
-                                    <td><?php echo htmlspecialchars($p['status']); ?></td>
-                                    <td><?php echo htmlspecialchars($p['user_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($p['catatan'] ?: '-'); ?></td>
+                                    <td colspan="11" class="text-center">Belum ada pesanan.</td>
                                 </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                            <?php else: ?>
+                                <?php foreach ($pesanan as $p): ?>
+                                    <tr>
+                                        <td><?php echo $p['id_pelanggan']; ?></td>
+                                        <td><?php echo htmlspecialchars($p['nama_pelanggan']); ?></td>
+                                        <td><?php echo $p['tanggal_masuk']; ?></td>
+                                        <td><?php echo $p['completion_date']; ?></td>
+                                        <td><?php echo htmlspecialchars($p['nama_layanan']); ?></td>
+                                        <td><?php echo number_format($p['berat_unit'], 2, ',', '.') . ' ' . htmlspecialchars($p['satuan']); ?></td>
+                                        <td><?php echo number_format($p['berat_unit'] * $p['harga_layanan'], 0, ',', '.'); ?></td>
+                                        <td><?php echo htmlspecialchars($p['status']); ?></td>
+                                        <td><?php echo htmlspecialchars($p['user_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($p['catatan'] ?: '-'); ?></td>
+                                        <td>
+                                            <?php if ($p['is_taken']): ?>
+                                                <span class="badge bg-success">Sudah Diambil</span>
+                                            <?php else: ?>
+                                                <span class="badge bg-warning text-dark">Belum Diambil</span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
                 <!-- Pagination -->
                 <?php if ($total_pages > 1): ?>
                     <nav aria-label="Pagination">
@@ -758,3 +818,4 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
     </script>
 </body>
 </html>
+```
