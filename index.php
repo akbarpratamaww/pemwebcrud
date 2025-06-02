@@ -23,114 +23,14 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+
     <style>
-        body {
-            background: #FFFFFF; /* Warna latar belakang di luar kotak menjadi putih */
-            font-family: 'Open Sans', sans-serif;
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        .login-container {
-            background: rgba(209, 247, 209, 0.58); /* Latar belakang hijau muda dengan opacity rendah */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            color: #2E7D32; /* Warna teks utama hijau tua untuk kontras */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .login-container h2 {
-            font-family: 'Poppins', sans-serif;
-            color: #2E7D32; /* Tajuk hijau tua untuk konsistensi */
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .tab-button {
-            background: none;
-            border: none;
-            color: #2E7D32; /* Warna tombol tab hijau tua */
-            padding: 10px 20px;
-            margin: 0 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: color 0.3s, border-bottom 0.3s;
-        }
-        .tab-button:hover, .tab-button.active {
-            color: #1B5E20; /* Warna lebih gelap saat hover/active */
-            border-bottom: 2px solid #1B5E20;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-label {
-            color: #2E7D32; /* Warna label hijau tua */
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        .form-control {
-            background: rgba(255, 255, 255, 0.3); /* Latar belakang input semi-transparan */
-            border: none;
-            border-radius: 5px;
-            color: #2E7D32;
-            padding: 10px;
-            font-size: 1rem;
-        }
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.5); /* Latar belakang input lebih terang saat fokus */
-            box-shadow: 0 0 10px rgba(46, 125, 50, 0.5); /* Bayangan hijau tua */
-            outline: none;
-        }
-        .btn-login {
-            background-color: #2E7D32; /* Tombol login hijau tua */
-            border: none;
-            padding: 12px;
-            width: 100%;
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .btn-login:hover {
-            background-color: #1B5E20; /* Warna lebih gelap saat hover */
-            transform: translateY(-2px);
-        }
         .error-message {
-            color: #D32F2F; /* Warna error merah tua untuk kontras */
-            font-size: 0.9rem;
-            text-align: center;
             display: <?php echo $message ? 'block' : 'none'; ?>;
         }
-        .footer-text {
-            text-align: center;
-            color: #2E7D32; /* Warna footer hijau tua */
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-        .footer-text a {
-            color: #1B5E20; /* Tautan di footer lebih gelap */
-            text-decoration: none;
-        }
-        .footer-text a:hover {
-            color: #388E3C; /* Warna tautan saat hover */
-        }
-        @media (max-width: 768px) {
-            .login-container {
-                padding: 20px;
-                margin: 10px;
-            }
-            .tab-button {
-                padding: 8px 15px;
-                font-size: 1rem;
-            }
-        }
     </style>
+    
 </head>
 <body>
     <div class="login-container">

@@ -1,0 +1,87 @@
+body {
+    background: #D4E8D4;
+    font-family: 'Open Sans', sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.register-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    color: #2E7D32;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.register-container h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #2E7D32;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-label {
+    color: #2E7D32;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form-control {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 5px;
+    color: #2E7D32;
+    padding: 10px;
+    font-size: 1rem;
+}
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
+    outline: none;
+}
+.btn-register {
+    background-color: #2E7D32;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.btn-register:hover {
+    background-color: #1B5E20;
+    transform: translateY(-2px);
+}
+.error-message {
+    color: #D32F2F;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.footer-text {
+    text-align: center;
+    color: #2E7D32;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+.footer-text a {
+    color: #1B5E20;
+    text-decoration: none;
+}
+.footer-text a:hover {
+    color: #388E3C;
+}
+@media (max-width: 768px) {
+    .register-container {
+        padding: 20px;
+        margin: 10px;
+    }
+}

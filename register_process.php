@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hash password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Simpan data user ke database (mirip dengan cara admin)
+        // Simpan data user ke database
         $stmt = $pdo->prepare("INSERT INTO users (username, password, name, phone, address) VALUES (?, ?, ?, ?, ?)");
         $params = [$username, $hashed_password, $name, $phone, $address];
 

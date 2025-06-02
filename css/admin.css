@@ -1,0 +1,149 @@
+body {
+    background-color: #E8F5E9;
+    font-family: 'Open Sans', sans-serif;
+}
+h2, h3 {
+    font-family: 'Poppins', sans-serif;
+    color: #388E3C; 
+}
+.navbar {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.btn-primary {
+    background-color: #66BB6A; 
+    border-color: #66BB6A;
+}
+.btn-primary:hover {
+    background-color: #A5D6A7;
+    border-color: #A5D6A7;
+}
+.btn-warning {
+    background-color: #FFCA28;
+    border-color: #FFCA28;
+}
+.btn-warning:hover {
+    background-color: #FFDD57;
+    border-color: #FFDD57;
+}
+.btn-danger {
+    background-color: #EF5350;
+    border-color: #EF5350;
+}
+.btn-danger:hover {
+    background-color: #F44336;
+    border-color: #F44336;
+}
+.btn-success {
+    background-color: #28A745;
+    border-color: #28A745;
+}
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+.form-card {
+    background-color: #FFFFFF;
+    border: 2px solid #66BB6A;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+.table-responsive {
+    margin-bottom: 0; 
+}
+.table {
+    background-color: #FFFFFF;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.rounded-table {
+    border-radius: 10px;
+    overflow: hidden; 
+}
+.table th {
+    background-color: #66BB6A; 
+    color: #FFFFFF;
+    padding: 12px;
+    border: none;
+}
+.table td {
+    padding: 12px;
+    border: none;
+    border-bottom: 1px solid #E0E0E0; 
+    word-wrap: break-word;
+    max-width: 200px;
+}
+.table tr:last-child td {
+    border-bottom: none; 
+}
+
+/* Atur lebar minimum untuk kolom tertentu */
+.col-id { min-width: 50px; }
+.col-nama { min-width: 120px; }
+.col-telepon { min-width: 120px; }
+.col-alamat { min-width: 150px; }
+.col-tanggal { min-width: 120px; }
+.col-selesai { min-width: 120px; }
+.col-layanan { min-width: 120px; }
+.col-berat { min-width: 100px; }
+.col-harga { min-width: 120px; }
+.col-status { min-width: 120px; }
+.col-pemesan { min-width: 120px; }
+.col-catatan { min-width: 150px; }
+.col-pengambilan { min-width: 150px; }
+.col-aksi { min-width: 150px; }
+
+/* Sembunyikan kolom tertentu pada layar kecil */
+@media (max-width: 768px) {
+    .col-alamat, .col-catatan, .col-selesai {
+        display: none;
+    }
+}
+
+/* Perbaikan untuk modal */
+.modal-body .row {
+    margin-bottom: 15px;
+}
+.modal-body label {
+    margin-bottom: 5px;
+}
+
+/* Search and Pagination Styles */
+.search-form {
+    margin-bottom: 20px;
+}
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination .page-link {
+    color: #66BB6A; 
+    border-radius: 5px;
+    margin: 0 5px;
+}
+.pagination .page-link:hover {
+    background-color: #A5D6A7;
+    color: #FFFFFF;
+}
+.pagination .active .page-link {
+    background-color: #66BB6A;
+    border-color: #66BB6A;
+    color: #FFFFFF;
+}
+
+/* Input dan select */
+.form-control, .form-select {
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #66BB6A;
+    box-shadow: 0 0 5px rgba(102, 187, 106, 0.3);
+}
+
+/* Smooth scroll untuk navigasi internal */
+html {
+    scroll-behavior: smooth;
+}
