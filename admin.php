@@ -466,7 +466,7 @@ try {
                                                 <span class="badge bg-success">Sudah Diambil</span>
                                             <?php else: ?>
                                                 <span class="badge bg-warning text-dark me-1">Belum Diambil</span>
-                                                <a href="admin.php?take_pesanan=<?php echo $p['id_pelanggan']; ?>&page=<?php echo $page; ?>&search=<?php echo urlencode($search); ?>" class="btn btn-success btn-sm" onclick="return confirm('Tandai pesanan ini sebagai diambil?')">Tandai Diambil</a>
+                                                <a href="admin.php?take_pesanan=<?php echo $p['id_pelanggan']; ?>&page=<?php echo $page; ?>&search=<?php echo urlencode($search); ?>" class="btn btn-success btn-sm" style="margin-top: 5px;"  onclick="return confirm('Tandai pesanan ini sebagai diambil?')">Tandai Diambil</a>
                                             <?php endif; ?>
                                         </td>
                                         <td>
