@@ -258,10 +258,60 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Cahaya Laundry</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/admin.css">
     <style>
+        /* Font Seragam untuk Seluruh Elemen */
+        * {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 400;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        h5, h6 {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        body, p, input, select, textarea, button, a, span, td, th {
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .nav-buttons a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .rounded-table thead th {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .status-pengambilan .badge, .status-pengambilan .btn-tandai-diambil {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .btn {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        /* Existing Styles */
         .dashboard-card {
             background: #fff;
             border-radius: 10px;
@@ -282,19 +332,128 @@ try {
                 margin-bottom: 15px;
             }
         }
+        /* Modern Navbar Styling */
+        .navbar {
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+        .navbar-brand {
+            color: #388E3C !important;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons a {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .nav-buttons a:not(.btn-logout) {
+            background-color: #e9ecef;
+            color: #343a40;
+        }
+        .nav-buttons a:not(.btn-logout):hover {
+            background-color: #388E3C;
+            color: #fff;
+            border-color: #388E3C;
+        }
+        .nav-buttons .btn-logout {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .nav-buttons .btn-logout:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+        @media (max-width: 576px) {
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-buttons a {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+        /* Modern Table Header Styling */
+        .rounded-table thead th {
+            background-color: #f1f3f5;
+            color: #343a40;
+            text-transform: uppercase;
+            padding: 12px 10px;
+            border: none;
+            border-bottom: 2px solid #dee2e6;
+            transition: background-color 0.2s ease;
+            text-align: center;
+        }
+        .rounded-table thead th:hover {
+            background-color: #e9ecef;
+        }
+        .rounded-table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .rounded-table tbody td {
+            vertical-align: middle;
+            padding: 10px;
+            text-align: center; /* Rata tengah untuk isi tabel */
+        }
+        /* Modern Status Pengambilan Styling */
+        .status-pengambilan {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-pengambilan .badge {
+            width: 120px;
+            padding: 8px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .status-pengambilan .badge.bg-success {
+            background-color: #28a745 !important;
+            color: #fff;
+        }
+        .status-pengambilan .badge.bg-warning {
+            background-color: #ffc107 !important;
+            color: #343a40;
+        }
+        .status-pengambilan .btn-tandai-diambil {
+            width: 120px;
+            padding: 8px 0;
+            border-radius: 12px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .status-pengambilan .btn-tandai-diambil:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#" style="color: #388E3C;">Cahaya Laundry</a>
-            <div>
-                <a href="#dashboard" class="btn btn-primary me-2">Dashboard</a>
-                <a href="#layanan" class="btn btn-primary me-2">Layanan</a>
-                <a href="#pesanan" class="btn btn-primary me-2">Pesanan</a>
-                <a href="#daftar-pesanan" class="btn btn-primary me-2">Daftar Pesanan</a>
-                <a href="logout.php" class="btn btn-danger">Logout</a>
+            <a class="navbar-brand" href="#">Cahaya Laundry</a>
+            <div class="nav-buttons">
+                <a href="#dashboard">Dashboard</a>
+                <a href="#layanan">Layanan</a>
+                <a href="#pesanan">Pesanan</a>
+                <a href="#daftar-pesanan">Daftar Pesanan</a>
+                <a href="logout.php" class="btn-logout">Logout</a>
             </div>
         </div>
     </nav>
@@ -358,8 +517,7 @@ try {
                             <tr>
                                 <th class="col-id">ID</th>
                                 <th class="col-nama">Nama Layanan</th>
-                                <th class="col-harga(Process finished with exit code 0
-)">Harga (Rp)</th>
+                                <th class="col-harga">Harga (Rp)</th>
                                 <th class="col-satuan">Satuan</th>
                                 <th class="col-aksi">Aksi</th>
                             </tr>
@@ -475,7 +633,7 @@ try {
                         </div>
                     </form>
                     <div class="table-responsive">
-                        <table class="table rounded-table">
+                        <table class="table rounded-table" id="pesanan-table">
                             <thead>
                                 <tr>
                                     <th class="col-id">ID</th>
@@ -514,12 +672,12 @@ try {
                                             <td><?php echo htmlspecialchars($p['status']); ?></td>
                                             <td><?php echo htmlspecialchars($p['user_name']); ?></td>
                                             <td><?php echo htmlspecialchars($p['catatan'] ?: '-'); ?></td>
-                                            <td>
+                                            <td class="status-pengambilan">
                                                 <?php if ($p['is_taken']): ?>
                                                     <span class="badge bg-success">Sudah Diambil</span>
                                                 <?php else: ?>
-                                                    <span class="badge bg-warning text-dark me-1">Belum Diambil</span>
-                                                    <a href="admin.php?take_pesanan=<?php echo $p['id_pelanggan']; ?>&page=<?php echo $page; ?>&search=<?php echo urlencode($search); ?>" class="btn btn-success btn-sm" style="margin-top: 5px;"  onclick="return confirm('Tandai pesanan ini sebagai diambil?')">Tandai Diambil</a>
+                                                    <span class="badge bg-warning text-dark">Belum Diambil</span>
+                                                    <a href="admin.php?take_pesanan=<?php echo $p['id_pelanggan']; ?>&page=<?php echo $page; ?>&search=<?php echo urlencode($search); ?>" class="btn-tandai-diambil" onclick="return confirm('Tandai pesanan ini sebagai diambil?')">Tandai Diambil</a>
                                                 <?php endif; ?>
                                             </td>
                                             <td>
@@ -538,17 +696,17 @@ try {
                             <ul class="pagination">
                                 <?php if ($page > 1): ?>
                                     <li class="page-item">
-                                        <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>">Sebelumnya</a>
+                                        <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>" onclick="saveScrollPosition()">Sebelumnya</a>
                                     </li>
                                 <?php endif; ?>
                                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                     <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
-                                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>" onclick="saveScrollPosition()"><?php echo $i; ?></a>
                                     </li>
                                 <?php endfor; ?>
                                 <?php if ($page < $total_pages): ?>
                                     <li class="page-item">
-                                        <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>">Selanjutnya</a>
+                                        <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>" onclick="saveScrollPosition()">Selanjutnya</a>
                                     </li>
                                 <?php endif; ?>
                             </ul>
@@ -627,5 +785,23 @@ try {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fungsi untuk menyimpan posisi scroll sebelum pindah halaman
+        function saveScrollPosition() {
+            const table = document.getElementById('pesanan-table');
+            if (table) {
+                localStorage.setItem('scrollPosition', table.getBoundingClientRect().top + window.scrollY);
+            }
+        }
+
+        // Mengembalikan posisi scroll saat halaman dimuat
+        window.addEventListener('load', () => {
+            const scrollPosition = localStorage.getItem('scrollPosition');
+            if (scrollPosition) {
+                window.scrollTo(0, parseInt(scrollPosition) - 100); // Offset 100px untuk visibilitas
+                localStorage.removeItem('scrollPosition'); // Hapus setelah digunakan
+            }
+        });
+    </script>
 </body>
 </html>
