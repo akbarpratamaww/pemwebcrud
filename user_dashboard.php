@@ -198,7 +198,7 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2" alt="Laundry 1">
+                    <img src="https://estaticosgn-cdn.deia.eus/clip/4f6aa363-4bd2-49e8-93b6-e33ef2dd9887_16-9-discover-aspect-ratio_default_1004440.jpg" alt="Laundry 1">
                     <div class="carousel-caption">
                         <h1>Selamat Datang di <?php echo $company_name; ?></h1>
                         <p>Jasa laundry profesional dengan pelayanan cepat dan bersih.</p>
@@ -206,7 +206,7 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Laundry 2">
+                    <img src="https://i.pinimg.com/736x/d9/7f/da/d97fdab9b3604edfee90ee50b874622a.jpg" alt="Laundry 2">
                     <div class="carousel-caption">
                         <h1>Kualitas Terbaik untuk Anda</h1>
                         <p>Pakaian wangi dan terawat dengan teknologi modern.</p>
@@ -214,7 +214,7 @@ $contact_address = "Jl. Sudirman No. 123, Jakarta, Indonesia";
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1600585154526-990d71b8f926" alt="Laundry 3">
+                    <img src="https://i.pinimg.com/736x/62/ea/c9/62eac9f2a0bb32d036a63faed331ade4.jpg" alt="Laundry 3">
                     <div class="carousel-caption">
                         <h1>Layanan Cepat dan Terjangkau</h1>
                         <p>Kami siap melayani kebutuhan laundry Anda.</p>
